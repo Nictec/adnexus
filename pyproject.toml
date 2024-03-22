@@ -1,0 +1,31 @@
+[build-system]
+requires = [ "poetry-core",]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry]
+name = "xdi"
+version = "0.0.1.1"
+description = ""
+authors = [ "nl <nl@x-net.at>",]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+pydantic = "^2.6.4"
+pyyaml = "^6.0.1"
+
+[tool.poetry.scripts]
+manage-version = "scripts.manage_version:manage_version"
+
+[tool.poetry.group.tests.dependencies]
+pytest = "^8.1.1"
+coverage = "^7.4.4"
+
+[tool.poetry.group.dev.dependencies]
+toml = "^0.10.2"
+
+[tool.poetry.group.docs.dependencies]
+mkdocs = "^1.5.3"
+mkdocstrings = {extras = ["python"], version = "^0.24.1"}
+mkdocs-material = "^9.5.14"
+
