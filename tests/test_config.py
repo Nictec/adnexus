@@ -27,18 +27,18 @@ def example_config_files():
 
 
 def test_json_config_loader(example_config_files):
-    loader = JSONConfigLoader(ExampleModel, Path("/tmp/example_config.json"))
+    loader = JSONConfigLoader(Path("/tmp/example_config.json"))
     config = loader.load()
-    assert config.value == 42
+    assert config.get("value") == 42
 
 
 def test_toml_config_loader(example_config_files):
-    loader = TOMLConfigLoader(ExampleModel, Path("/tmp/example_config.toml"))
+    loader = TOMLConfigLoader(Path("/tmp/example_config.toml"))
     config = loader.load()
-    assert config.value == 42
+    assert config.get("value") == 42
 
 
 def test_yaml_config_loader(example_config_files):
-    loader = YAMLConfigLoader(ExampleModel, Path("/tmp/example_config.yaml"))
+    loader = YAMLConfigLoader(Path("/tmp/example_config.yaml"))
     config = loader.load()
-    assert config.value == 42
+    assert config.get("value") == 42

@@ -1,3 +1,4 @@
+import json
 import tomllib
 
 import yaml
@@ -8,7 +9,7 @@ from xdi.config.base import StaticConfigLoader
 
 class JSONConfigLoader(StaticConfigLoader):
     def load(self) -> BaseModel:
-        return self.model.model_validate_json(self.file_content)
+        return json.loads(self.file_content)
 
 
 class TOMLConfigLoader(StaticConfigLoader):
