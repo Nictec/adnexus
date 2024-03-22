@@ -1,7 +1,8 @@
+import functools
 import importlib
 import inspect
 from abc import ABC
-from typing import List, Dict, get_origin, get_args, Type
+from typing import List, Dict, get_origin, get_args, Type, Any
 
 from pydantic import BaseModel
 
@@ -55,14 +56,24 @@ class DeclarativeContainer(BaseContainer):
 
         return root_callables
 
-    def _get_dependencies(self, root_callable: InjectedCallable) -> Dict[str, BaseProvider]:
-        params = inspect.signature(root_callable.wrapped).parameters.items()
+    def _resolve(self, injectable_obj: Any):
+        if isinstance(injectable_obj, BaseProvider):
+            # resolving dependencies of a dependency
+            params = inspect.signature(injectable_obj.provided_class.__init__).parameters.items()
+        else:
+            # resolving dependencies of a InjectedCallable
+            params = inspect.signature(injectable_obj.wrapped).parameters.items()
+
         dependencies = {}
         for param_name, param_type in params:
             if get_origin(param_type.annotation) == Provide:
                 dependency_class_name = get_args(param_type.annotation)[0].__name__
                 if dependency_class_name not in self._provider_mapping.keys():
                     raise WiringError(f'"{dependency_class_name}" is not registered in container "{self.__class__.__name__}"')
+
+                # resolve dependencies of dependencies
+                current_dep_params = {key: value.get_instance() for key, value in self._resolve(self._provider_mapping[dependency_class_name]).items()}
+                self._provider_mapping[dependency_class_name].provided_class.__init__ = functools.partialmethod(self._provider_mapping[dependency_class_name].provided_class.__init__, **current_dep_params)
 
                 dependencies[param_name] = self._provider_mapping[dependency_class_name]
 
@@ -82,4 +93,4 @@ class DeclarativeContainer(BaseContainer):
             self._provider_mapping[provider.provided_class_name] = provider
 
         for root_callable in self._get_root_callables(modules):
-            setattr(root_callable, "dependencies", self._get_dependencies(root_callable))
+            setattr(root_callable, "dependencies", self._resolve(root_callable))

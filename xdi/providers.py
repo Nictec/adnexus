@@ -42,6 +42,10 @@ class BaseProvider(ABC):
         """
         return self._provided_class.__name__
 
+    @property
+    def provided_class(self):
+        return self._provided_class
+
 
 class FactoryProvider(BaseProvider):
     """

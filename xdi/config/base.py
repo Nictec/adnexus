@@ -6,15 +6,22 @@ from pydantic import BaseModel
 
 
 class BaseConfigLoader(ABC):
+    """
+    Base class for configuration loaders
+    """
     @abstractmethod
     def __init__(self, *args, **kwargs):
         pass
 
-    def load(self):
+    @abstractmethod
+    def load(self) -> dict:
         pass
 
 
 class StaticConfigLoader(BaseConfigLoader, ABC):
+    """
+    Loads configuration from a static file
+    """
     file_content: str
 
     def __init__(self, file_path: Path):

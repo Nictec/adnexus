@@ -2,23 +2,31 @@ import json
 import tomllib
 
 import yaml
-from pydantic import BaseModel
 
 from xdi.config.base import StaticConfigLoader
 
 
 class JSONConfigLoader(StaticConfigLoader):
-    def load(self) -> BaseModel:
+    """
+    Loads configuration from a json file
+    """
+    def load(self) -> dict:
         return json.loads(self.file_content)
 
 
 class TOMLConfigLoader(StaticConfigLoader):
-    def load(self) -> BaseModel:
+    """
+    Loads configuration from a toml file
+    """
+    def load(self) -> dict:
         return tomllib.loads(self.file_content)
 
 
 class YAMLConfigLoader(StaticConfigLoader):
-    def load(self):
+    """
+    Loads configuration from a yaml file
+    """
+    def load(self) -> dict:
         return yaml.safe_load(self.file_content)
 
 
