@@ -52,5 +52,5 @@ class InjectedAsyncCallable(InjectedCallable):
         processed_kwargs = {key: value.get_instance() for key, value in self.dependencies.items()}
         processed_kwargs.update(kwargs)
 
-        print("kwargs", processed_kwargs)
         return await self._orig_callable(*args, **processed_kwargs)
+

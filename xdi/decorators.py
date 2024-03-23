@@ -3,6 +3,7 @@ from functools import wraps
 from typing import Callable
 
 from xdi.callables import InjectedCallable, InjectedAsyncCallable
+from xdi.exceptions import XDIError
 
 
 def inject(fn: Callable):
@@ -13,5 +14,7 @@ def inject(fn: Callable):
     """
     if inspect.iscoroutinefunction(fn):
         return InjectedAsyncCallable(fn)
-
-    return InjectedCallable(fn)
+    elif inspect.isfunction(fn):
+        return InjectedCallable(fn)
+    else:
+        raise XDIError("Currently XDI only supports functions and coroutines as a injection root!")
