@@ -60,5 +60,5 @@ if __name__ == "__main__":
     container = MyContainer()
     container.wire([__name__])
 
-    test() # <-- dependencies are automatically injected
+    test() # <-- dependencies are injected automatically
 ```
