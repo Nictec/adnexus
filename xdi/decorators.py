@@ -1,21 +1,20 @@
 import inspect
 from typing import Callable, Type, Any
 
-from xdi.callables import InjectedCallable, InjectedAsyncCallable, InjectedClass
-from xdi.exceptions import XDIError
+from xdi.wrappers import InjectedCallable, InjectedAsyncCallable, InjectedClass
 
 
-def inject(fn: Callable | Type[Any]):
+def inject(wrapped: Callable | Type[Any]):
     """
     Decorator for marking a callable as injectable
-    :param fn: Callable to decorate
+    :param wrapped: Callable or Class to decorate
     :return: InjectedCallable[fn]
     """
-    if inspect.iscoroutinefunction(fn):
-        return InjectedAsyncCallable(fn)
-    elif inspect.isfunction(fn):
-        return InjectedCallable(fn)
-    elif inspect.isclass(fn):
-        return InjectedClass(fn)
+    if inspect.iscoroutinefunction(wrapped):
+        return InjectedAsyncCallable(wrapped)
+    elif inspect.isfunction(wrapped):
+        return InjectedCallable(wrapped)
+    elif inspect.isclass(wrapped):
+        return InjectedClass(wrapped)
     else:
-        raise TypeError(f"{fn} is not a injectable object")
+        raise TypeError(f"{wrapped} cannot be used as a root injection")

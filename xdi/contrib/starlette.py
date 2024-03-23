@@ -5,7 +5,7 @@ import typing
 from starlette.middleware import Middleware
 from starlette.routing import Route, get_name, request_response, compile_path
 
-from xdi.callables import InjectedCallable, InjectedAsyncCallable
+from xdi.wrappers import InjectedCallable, InjectedAsyncCallable
 
 
 class InjectedRoute(Route):

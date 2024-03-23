@@ -6,7 +6,7 @@ from typing import List, Dict, get_origin, get_args, Type, Any
 
 from pydantic import BaseModel
 
-from xdi.callables import InjectedCallable, InjectedClass
+from xdi.wrappers import InjectedCallable, InjectedClass
 from xdi.config.base import BaseConfigLoader
 from xdi.config.helpers import merge
 from xdi.exceptions import ImproperlyConfigured, WiringError
