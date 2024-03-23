@@ -19,8 +19,12 @@ class BaseContainer(ABC):
     config_model: Type[BaseModel]
     injectables: List[BaseProvider]
 
-    _config: BaseModel
+    config: BaseModel
     _provider_mapping: Dict[str, BaseProvider] = {}
+
+    def __new__(cls, *args, **kwargs):
+        cls.load_config()
+        return super().__new__(cls)
 
     def __init__(self):
         """
@@ -28,21 +32,28 @@ class BaseContainer(ABC):
         """
         if not hasattr(self, "config_loaders") or not hasattr(self, "config_model"):
             raise ImproperlyConfigured("Config must be set on DI Container")
-        elif len(self.injectables) < 1:
-            pass # raise ImproperlyConfigured("Container must have at least one injectable")
+        elif len(self.get_injectables()) < 1:
+            raise ImproperlyConfigured("Container must have at least one injectable")
+
+    @classmethod
+    def load_config(cls):
+        # iterate over the configured loaders
+        full_cfg = {}
+        for loader in cls.config_loaders:
+            full_cfg = merge(full_cfg, loader.load())
+
+        # validate and store the whole config
+        cls.config = cls.config_model.model_validate(full_cfg)
 
     def wire(self, modules: List[str]):
         """
         Parse the config and do implementation specific wiring stuff
         :param modules: Modules of injectable callables
         """
-        # iterate over the configured loaders
-        full_cfg = {}
-        for loader in self.config_loaders:
-            full_cfg = merge(full_cfg, loader.load())
+        pass
 
-        # validate and store the whole config
-        self._config = self.config_model.model_validate(full_cfg)
+    def get_injectables(self):
+        return self.injectables
 
 
 class DeclarativeContainer(BaseContainer):
@@ -89,7 +100,7 @@ class DeclarativeContainer(BaseContainer):
 
         super().wire(modules)
 
-        for provider in self.injectables:
+        for provider in self.get_injectables():
             provider.wire()
             self._provider_mapping[provider.provided_class_name] = provider
 

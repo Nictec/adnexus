@@ -15,6 +15,7 @@ class BaseProvider(ABC):
         :param args: constructor args of the provided class
         :param kwargs: constructor kwargs of the provided class
         """
+        
         self._args = args
         self._kwargs = kwargs
         self._provided_class = provided_class

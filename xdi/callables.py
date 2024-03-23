@@ -1,4 +1,4 @@
-from typing import Any, Dict, Callable, ClassVar
+from typing import Any, Dict, Callable
 
 from xdi.exceptions import InjectionError
 
