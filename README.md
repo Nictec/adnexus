@@ -1,20 +1,21 @@
-# XDI
+# XDI Framework
+**XDI is a modern and declarative DI and IoC framework using pydantic for config and data.**
 
-XDI is a modern and declarative DI and IoC framework using pydantic for config and data.
+## Key features
 
-Key features:
-- Fast: Very high performance thanks to pydantic and preemptive wiring
-- Developer friendly: Declarative Container definition to take the "Magic" out of DI
-- Compatibility: Can be used with almost every framework and supports async
+- **Fast:** Very high performance thanks to pydantic and preemptive wiring
+- **Developer friendly:** Declarative Container definition to take the "Magic" out of DI
+- **Good compatibility:** Can be used with almost every framework and supports async
 
-## Example
+## Basic Example
 ```python3
 from pathlib import Path
+from datetime import datetime
+
 from pydantic import BaseModel
 from xdi.containers import DeclarativeContainer
 from xdi.config.builtin import TOMLConfigLoader
 from xdi.providers import FactoryProvider
-from datetime import datetime
 from xdi.markers import Provide
 from xdi.decorators import inject
 
