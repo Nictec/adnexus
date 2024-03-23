@@ -48,6 +48,7 @@ class MyConfig(BaseModel):
 
 
 class MyContainer(DeclarativeContainer):
+    # the loaded config can be accessed by calling MyContainer.config.<name>
     config_loaders = [TOMLConfigLoader(Path("settings.toml"))] # <-- This file must (obviously) exist for the example to work
     config_model = MyConfig
 

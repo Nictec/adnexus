@@ -2,6 +2,7 @@ import functools
 import inspect
 import typing
 
+from starlette.applications import Starlette
 from starlette.middleware import Middleware
 from starlette.routing import Route, get_name, request_response, compile_path
 
@@ -49,3 +50,4 @@ class InjectedRoute(Route):
                 self.methods.add("HEAD")
 
         self.path_regex, self.path_format, self.param_convertors = compile_path(path)
+
