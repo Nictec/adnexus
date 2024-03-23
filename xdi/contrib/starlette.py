@@ -5,6 +5,9 @@ import typing
 from starlette.middleware import Middleware
 from starlette.routing import Route, get_name, request_response, compile_path
 
+from xdi.callables import InjectedCallable, InjectedAsyncCallable
+from xdi.providers import BaseProvider
+
 
 class InjectedRoute(Route):
     def __init__(
@@ -26,7 +29,7 @@ class InjectedRoute(Route):
         endpoint_handler = endpoint
         while isinstance(endpoint_handler, functools.partial):
             endpoint_handler = endpoint_handler.func
-        if inspect.isfunction(endpoint_handler) or inspect.ismethod(endpoint_handler) or callable(endpoint_handler):
+        if inspect.isfunction(endpoint_handler) or inspect.ismethod(endpoint_handler) or isinstance(endpoint_handler, InjectedCallable) or isinstance(endpoint_handler, InjectedAsyncCallable):
             # Endpoint is function or method. Treat it as `func(request) -> response`.
             self.app = request_response(endpoint)
             if methods is None:

@@ -24,7 +24,7 @@ class InjectedCallable:
         :return: Return of the original callable
         """
         if len(self.dependencies) < 1:
-            raise InjectionError("DI container is not wired yet!")
+            raise InjectionError(f"DI container is not wired yet or {self._orig_callable} has no dependencies!")
         processed_kwargs = {key: value.get_instance() for key, value in self.dependencies.items()}
         processed_kwargs.update(kwargs)
 
