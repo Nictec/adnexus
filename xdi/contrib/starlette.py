@@ -9,6 +9,7 @@ from starlette.routing import Route, get_name, request_response, compile_path
 from xdi.wrappers import InjectedCallable, InjectedAsyncCallable
 
 
+# this is necessary because the standard starlette route would handle our injected objects as an Endpoint (which does not work)
 class InjectedRoute(Route):
     def __init__(
         self,
