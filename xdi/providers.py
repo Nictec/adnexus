@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from functools import partialmethod
 from typing import Any, Type, Dict, Tuple
 
 
@@ -45,6 +46,9 @@ class BaseProvider(ABC):
     @property
     def provided_class(self):
         return self._provided_class
+
+    def inject_provided_init(self, patched_init: partialmethod):
+        self._provided_class.__init__ = patched_init
 
 
 class FactoryProvider(BaseProvider):

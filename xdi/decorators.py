@@ -1,7 +1,8 @@
+import inspect
 from functools import wraps
 from typing import Callable
 
-from xdi.callables import InjectedCallable
+from xdi.callables import InjectedCallable, InjectedAsyncCallable
 
 
 def inject(fn: Callable):
@@ -10,4 +11,7 @@ def inject(fn: Callable):
     :param fn: Callable to decorate
     :return: InjectedCallable[fn]
     """
+    if inspect.iscoroutinefunction(fn):
+        return InjectedAsyncCallable(fn)
+
     return InjectedCallable(fn)

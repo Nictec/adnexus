@@ -37,3 +37,20 @@ class InjectedCallable:
         :return: Original callable
         """
         return self._orig_callable
+
+
+class InjectedAsyncCallable(InjectedCallable):
+    async def __call__(self, *args, **kwargs):
+        """
+        Calls the original callable with wired dependencies
+        :param args: Arguments to pass to the original callable
+        :param kwargs: Keyword arguments to pass to the original callable
+        :return: Return of the original callable
+        """
+        if len(self.dependencies) < 1:
+            raise InjectionError("DI container is not wired yet!")
+        processed_kwargs = {key: value.get_instance() for key, value in self.dependencies.items()}
+        processed_kwargs.update(kwargs)
+
+        print("kwargs", processed_kwargs)
+        return await self._orig_callable(*args, **processed_kwargs)

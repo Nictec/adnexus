@@ -61,7 +61,7 @@ class DeclarativeContainer(BaseContainer):
             # resolving dependencies of a dependency
             params = inspect.signature(injectable_obj.provided_class.__init__).parameters.items()
         else:
-            # resolving dependencies of a InjectedCallable
+            # resolving dependencies of a InjectedCallable or AsyncInjectedCallable
             params = inspect.signature(injectable_obj.wrapped).parameters.items()
 
         dependencies = {}
@@ -73,7 +73,8 @@ class DeclarativeContainer(BaseContainer):
 
                 # resolve dependencies of dependencies
                 current_dep_params = {key: value.get_instance() for key, value in self._resolve(self._provider_mapping[dependency_class_name]).items()}
-                self._provider_mapping[dependency_class_name].provided_class.__init__ = functools.partialmethod(self._provider_mapping[dependency_class_name].provided_class.__init__, **current_dep_params)
+                partial_init = functools.partialmethod(self._provider_mapping[dependency_class_name].provided_class.__init__, **current_dep_params)
+                self._provider_mapping[dependency_class_name].inject_provided_init(partial_init)
 
                 dependencies[param_name] = self._provider_mapping[dependency_class_name]
 
