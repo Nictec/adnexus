@@ -53,7 +53,7 @@ class MyContainer(DeclarativeContainer):
     config_model = MyConfig
 
     injectables = [
-        FactoryProvider(TestInjectable, "Nicholas"),
+        FactoryProvider(TestInjectable, "Bob"),
         FactoryProvider(UpstreamInjectable)
     ]
 
