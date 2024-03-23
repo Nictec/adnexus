@@ -1,5 +1,4 @@
 import inspect
-from functools import wraps
 from typing import Callable
 
 from xdi.callables import InjectedCallable, InjectedAsyncCallable
