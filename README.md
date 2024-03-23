@@ -48,7 +48,7 @@ class MyConfig(BaseModel):
 
 
 class MyContainer(DeclarativeContainer):
-    config_loaders = [TOMLConfigLoader(Path("settings.toml"))] # <-- This file must (obviously) for the example to work
+    config_loaders = [TOMLConfigLoader(Path("settings.toml"))] # <-- This file must (obviously) exist for the example to work
     config_model = MyConfig
 
     injectables = [
