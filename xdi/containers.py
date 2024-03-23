@@ -6,7 +6,7 @@ from typing import List, Dict, get_origin, get_args, Type, Any
 
 from pydantic import BaseModel
 
-from xdi.callables import InjectedCallable
+from xdi.callables import InjectedCallable, InjectedClass
 from xdi.config.base import BaseConfigLoader
 from xdi.config.helpers import merge
 from xdi.exceptions import ImproperlyConfigured, WiringError
@@ -63,7 +63,7 @@ class DeclarativeContainer(BaseContainer):
         for mod_path in mod_paths:
             module = importlib.import_module(mod_path)
             root_callables.extend(
-                [dep[1] for dep in inspect.getmembers(module, predicate=lambda m: isinstance(m, InjectedCallable))])
+                [dep[1] for dep in inspect.getmembers(module, predicate=lambda m: isinstance(m, InjectedCallable) or isinstance(m, InjectedClass))])
 
         return root_callables
 
@@ -71,9 +71,12 @@ class DeclarativeContainer(BaseContainer):
         if isinstance(injectable_obj, BaseProvider):
             # resolving dependencies of a dependency
             params = inspect.signature(injectable_obj.provided_class.__init__).parameters.items()
-        else:
+        elif isinstance(injectable_obj, InjectedCallable):
             # resolving dependencies of a InjectedCallable or AsyncInjectedCallable
             params = inspect.signature(injectable_obj.wrapped).parameters.items()
+        elif isinstance(injectable_obj, InjectedClass):
+            # resolving dependencies of InjectedClass
+            params = inspect.signature(injectable_obj.wrapped.__init__).parameters.items()
 
         dependencies = {}
         for param_name, param_type in params:

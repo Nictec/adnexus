@@ -1,11 +1,11 @@
 import inspect
-from typing import Callable
+from typing import Callable, Type, Any
 
-from xdi.callables import InjectedCallable, InjectedAsyncCallable
+from xdi.callables import InjectedCallable, InjectedAsyncCallable, InjectedClass
 from xdi.exceptions import XDIError
 
 
-def inject(fn: Callable):
+def inject(fn: Callable | Type[Any]):
     """
     Decorator for marking a callable as injectable
     :param fn: Callable to decorate
@@ -15,5 +15,7 @@ def inject(fn: Callable):
         return InjectedAsyncCallable(fn)
     elif inspect.isfunction(fn):
         return InjectedCallable(fn)
+    elif inspect.isclass(fn):
+        return InjectedClass(fn)
     else:
-        raise XDIError("Currently XDI only supports functions and coroutines as a injection root!")
+        raise TypeError(f"{fn} is not a injectable object")
