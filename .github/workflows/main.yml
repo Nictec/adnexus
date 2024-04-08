@@ -40,8 +40,8 @@ jobs:
         id: upload-reports
         uses: actions/upload-artifact@v4
         with:
-          name: reports
-          path: "github-pages"
+          name: "github-pages"
+          path: "reports"
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4 # or specific "vX.X.X" version tag for this action
