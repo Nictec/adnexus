@@ -30,13 +30,15 @@ class BaseContainer(ABC):
         """
         Class all container types inherit from
         """
-        if not hasattr(self, "config_loaders") or not hasattr(self, "config_model"):
-            raise ImproperlyConfigured("Config must be set on DI Container")
-        elif len(self.get_injectables()) < 1:
+        if len(self.get_injectables()) < 1:
             raise ImproperlyConfigured("Container must have at least one injectable")
 
     @classmethod
     def load_config(cls):
+        # check if the container is correctly configured by the user
+        if not hasattr(cls, "config_loaders") or not hasattr(cls, "config_model"):
+            raise ImproperlyConfigured("Config must be set on DI Container")
+
         # iterate over the configured loaders
         full_cfg = {}
         for loader in cls.config_loaders:
@@ -53,7 +55,10 @@ class BaseContainer(ABC):
         pass
 
     def get_injectables(self):
-        return self.injectables
+        if hasattr(self, "injectables"):
+            return self.injectables
+        else:
+            return []
 
 
 class DeclarativeContainer(BaseContainer):
