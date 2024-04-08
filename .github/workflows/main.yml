@@ -36,6 +36,8 @@ jobs:
 
     runs-on: ubuntu-latest
     steps:
+      - name: ls
+        run: ls
       - name: Create Artifact
         id: upload-reports
         uses: actions/upload-artifact@v4
