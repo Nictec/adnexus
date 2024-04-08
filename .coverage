@@ -1,4 +1,0 @@
-[coverage:run]
-omit =
-    xdi/markers.py
-    xdi/containers.py

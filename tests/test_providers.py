@@ -10,6 +10,7 @@ class ExampleClass:
 def test_factory_provider():
     provider = FactoryProvider(ExampleClass, value=42)
     assert provider.provided_class_name == 'ExampleClass'
+    assert provider.provided_class == ExampleClass
 
     provider.wire()
     instance = provider.get_instance()

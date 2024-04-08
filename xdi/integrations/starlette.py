@@ -2,11 +2,10 @@ import functools
 import inspect
 import typing
 
-from starlette.applications import Starlette
 from starlette.middleware import Middleware
 from starlette.routing import Route, get_name, request_response, compile_path
 
-from xdi.wrappers import InjectedCallable, InjectedAsyncCallable
+from xdi.wrappers import InjectedCallable
 
 
 # this is necessary because the standard starlette route would handle our injected objects as an Endpoint (which does not work)
@@ -30,8 +29,8 @@ class InjectedRoute(Route):
         endpoint_handler = endpoint
         while isinstance(endpoint_handler, functools.partial):
             endpoint_handler = endpoint_handler.func
-        if inspect.isfunction(endpoint_handler) or inspect.ismethod(endpoint_handler) or isinstance(endpoint_handler, InjectedCallable) or isinstance(endpoint_handler, InjectedAsyncCallable):
-            # Endpoint is function or method. Treat it as `func(request) -> response`.
+        if inspect.isfunction(endpoint_handler) or inspect.ismethod(endpoint_handler) or isinstance(endpoint_handler, InjectedCallable):
+            # Endpoint is function method or InjectedCallable. Treat it as `func(request) -> response`.
             self.app = request_response(endpoint)
             if methods is None:
                 methods = ["GET"]

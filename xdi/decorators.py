@@ -17,4 +17,4 @@ def inject(wrapped: Callable | Type[Any]):
     elif inspect.isclass(wrapped):
         return InjectedClass(wrapped)
     else:
-        raise TypeError(f"{wrapped} cannot be used as a root injection")
+        raise TypeError(f"{wrapped} cannot be used as a root injection object")

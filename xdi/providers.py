@@ -21,7 +21,7 @@ class BaseProvider(ABC):
         self._provided_class = provided_class
 
     @abstractmethod
-    def get_instance(self) -> Any:
+    def get_instance(self) -> Any: # pragma: no cover
         """
         Get an instance of the provided class
         :return: instance of the provided class
@@ -29,12 +29,12 @@ class BaseProvider(ABC):
         pass
 
     @abstractmethod
-    def wire(self):
+    def wire(self): # parma: no cover
         """
         Wire the provided class and its dependencies
         :return:
         """
-        pass
+        pass # pragma: no cover
 
     @property
     def provided_class_name(self):
@@ -48,7 +48,7 @@ class BaseProvider(ABC):
     def provided_class(self):
         return self._provided_class
 
-    def inject_provided_init(self, patched_init: partialmethod):
+    def inject_provided_init(self, patched_init: partialmethod): # pragma: no cover
         self._provided_class.__init__ = patched_init
 
 

@@ -2,6 +2,7 @@ import pytest
 from pathlib import Path
 from pydantic import BaseModel
 from xdi.config import JSONConfigLoader, TOMLConfigLoader, YAMLConfigLoader
+from xdi.config.helpers import merge
 
 
 # Define an ExampleModel for testing purposes
@@ -26,6 +27,16 @@ def example_config_files():
     return files_data
 
 
+# helpers
+def test_dict_merge():
+    d1 = {"a": "a"}
+    d2 = {"b": "b"}
+    expected = {"a": "a", "b": "b"}
+
+    assert merge(d1, d2) == expected
+
+
+# loaders
 def test_json_config_loader(example_config_files):
     loader = JSONConfigLoader(Path("/tmp/example_config.json"))
     config = loader.load()

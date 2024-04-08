@@ -7,11 +7,11 @@ class BaseConfigLoader(ABC):
     Base class for configuration loaders
     """
     @abstractmethod
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs): # pragma: no cover
         pass
 
     @abstractmethod
-    def load(self) -> dict:
+    def load(self) -> dict: # pragma: no cover
         pass
 
 
