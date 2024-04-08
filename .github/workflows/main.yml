@@ -43,7 +43,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: "github-pages"
-          path: ${GITHUB_WORKSPACE}/reports/
+          path: ${{ github.workspace }}/reports/
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4 # or specific "vX.X.X" version tag for this action
