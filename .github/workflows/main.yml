@@ -20,6 +20,6 @@ jobs:
         with:
           poetry-version: ${{ matrix.poetry-version }}
       - name: install
-        run: poetry install
+        run: poetry install --no-interaction --no-root
       - name: test
         run: poetry run coverage
