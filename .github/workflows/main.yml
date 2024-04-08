@@ -42,8 +42,8 @@ jobs:
         id: upload-reports
         uses: actions/upload-artifact@v4
         with:
-          name: "github-pages/coverage"
-          path: "reports/coverage/*"
+          name: "github-pages"
+          path: "/home/runner/work/XDI/XDI/reports/*"
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4 # or specific "vX.X.X" version tag for this action
