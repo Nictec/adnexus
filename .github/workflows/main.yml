@@ -19,7 +19,5 @@ jobs:
         uses: abatilo/actions-poetry@v2
         with:
           poetry-version: ${{ matrix.poetry-version }}
-      - name: install
-        run: poetry install --no-interaction --no-root
       - name: test
         run: poetry run coverage
