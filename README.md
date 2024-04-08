@@ -8,6 +8,11 @@
 - **Developer friendly:** Declarative Container definition to take the "Magic" out of DI
 - **Good compatibility:** Can be used with almost every framework and supports async
 
+## Installation (Via git for now)
+```bash
+pip install git+https://github.com/Nictec/XDI
+```
+
 ## Basic Example
 ```python3
 from pathlib import Path
