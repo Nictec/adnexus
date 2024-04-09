@@ -1,11 +1,8 @@
 from pathlib import Path
-from datetime import datetime
 
 import pytest
 from pydantic import BaseModel
 from xdi.containers import DeclarativeContainer
-from xdi.config.builtin import TOMLConfigLoader
-from xdi.exceptions import ImproperlyConfigured
 from xdi.providers import FactoryProvider
 from xdi.markers import Provide
 from xdi.decorators import inject
@@ -49,11 +46,6 @@ class MyConfig(BaseModel):
 
 
 class MyContainer(DeclarativeContainer):
-    # the loaded config can be accessed by calling MyContainer.config.<name>
-    config_loaders = [
-        TOMLConfigLoader(Path("tests/settings.toml"))]  # <-- This file must (obviously) exist for the example to work
-    config_model = MyConfig
-
     injectables = [
         FactoryProvider(TestInjectable, "Bob"),
         FactoryProvider(UpstreamInjectable)
@@ -68,9 +60,7 @@ class NoConfigContainer(DeclarativeContainer):
 
 
 class MissingInjectablesContainer(DeclarativeContainer):
-    config_loaders = [
-        TOMLConfigLoader(Path("tests/settings.toml"))]  # <-- This file must (obviously) exist for the example to work
-    config_model = MyConfig
+    pass
 
 
 @pytest.fixture(scope="module")

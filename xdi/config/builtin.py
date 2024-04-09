@@ -1,32 +1,31 @@
 import json
-import tomllib
-
+import tomllib  #
 import yaml
 
-from xdi.config.base import StaticConfigLoader
+from typing import Dict, Any
+
+from .base_loader import FileConfigLoader
 
 
-class JSONConfigLoader(StaticConfigLoader):
-    """
-    Loads configuration from a json file
-    """
-    def load(self) -> dict:
-        return json.loads(self.file_content)
+class JSONLoader(FileConfigLoader):
+    def parse(self, raw_data: str) -> Dict[str, Any]:
+        return json.loads(raw_data)
+
+    def get_config(self) -> Dict[str, Any]:
+        return self.data
 
 
-class TOMLConfigLoader(StaticConfigLoader):
-    """
-    Loads configuration from a toml file
-    """
-    def load(self) -> dict:
-        return tomllib.loads(self.file_content)
+class TOMLLoader(FileConfigLoader):
+    def parse(self, raw_data: str) -> dict:
+        return tomllib.loads(raw_data)
+
+    def get_config(self) -> Dict[str, str]:
+        return self.data
 
 
-class YAMLConfigLoader(StaticConfigLoader):
-    """
-    Loads configuration from a yaml file
-    """
-    def load(self) -> dict:
-        return yaml.safe_load(self.file_content)
+class YAMLLoader(FileConfigLoader):
+    def parse(self, raw_data: str) -> dict:
+        return yaml.safe_load(raw_data)
 
-
+    def get_config(self) -> Dict[str, Any]:
+        return self.data

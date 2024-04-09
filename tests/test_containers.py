@@ -10,10 +10,6 @@ def test_wiring(wired_container):
     assert isinstance(wired_container, DeclarativeContainer)
     assert isinstance(test, InjectedCallable)
 
-def test_missing_config(container_without_config):
-    with pytest.raises(ImproperlyConfigured):
-        container_without_config()
-
 def test_missing_injectables(container_without_injectables):
     with pytest.raises(ImproperlyConfigured):
         container_without_injectables()

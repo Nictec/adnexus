@@ -7,23 +7,19 @@ from typing import List, Dict, get_origin, get_args, Type, Any
 from pydantic import BaseModel
 
 from xdi.wrappers import InjectedCallable, InjectedClass
-from xdi.config.base import BaseConfigLoader
-from xdi.config.helpers import merge
 from xdi.exceptions import ImproperlyConfigured, WiringError
 from xdi.providers import BaseProvider
 from xdi.markers import Provide
 
 
 class BaseContainer(ABC):
-    config_loaders: List[BaseConfigLoader]
-    config_model: Type[BaseModel]
+    config: BaseModel
     injectables: List[BaseProvider]
 
     config: BaseModel
     _provider_mapping: Dict[str, BaseProvider] = {}
 
     def __new__(cls, *args, **kwargs):
-        cls.load_config()
         return super().__new__(cls)
 
     def __init__(self):
@@ -32,20 +28,6 @@ class BaseContainer(ABC):
         """
         if len(self.get_injectables()) < 1:
             raise ImproperlyConfigured("Container must have at least one injectable")
-
-    @classmethod
-    def load_config(cls):
-        # check if the container is correctly configured by the user
-        if not hasattr(cls, "config_loaders") or not hasattr(cls, "config_model"):
-            raise ImproperlyConfigured("Config must be set on DI Container")
-
-        # iterate over the configured loaders
-        full_cfg = {}
-        for loader in cls.config_loaders:
-            full_cfg = merge(full_cfg, loader.load())
-
-        # validate and store the whole config
-        cls.config = cls.config_model.model_validate(full_cfg)
 
     def wire(self, modules: List[str]):
         """
