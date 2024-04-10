@@ -1,5 +1,5 @@
-site_name: XDI Docs
-site_description: XDI Framework, high performance and typed dependency injection framework
+site_name: Adnexus Docs
+site_description: Adnexus Framework, high performance and typed dependency injection framework
 markdown_extensions:
   - def_list
   - pymdownx.highlight:
