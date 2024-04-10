@@ -5,16 +5,21 @@ on:
       - master
 
 jobs:
-  build:
+  docs:
     name: Deploy docs
     runs-on: ubuntu-latest
     steps:
       - name: Checkout master
         uses: actions/checkout@v2
 
-      - uses: actions/setup-python@v4
+      - name: "Create requirements.txt"
+        run: poetry export --without-hashes --format=requirements.txt --only=docs > requirements.txt
 
       - name: Deploy docs
         uses: mhausenblas/mkdocs-deploy-gh-pages@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REQUIREMENTS: "requirements.txt"
+
+      - name: cleanup
+        run: rm -f requirements.txt
