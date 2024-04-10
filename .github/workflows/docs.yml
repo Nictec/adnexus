@@ -16,8 +16,6 @@ jobs:
 
       - name: Run image
         uses: abatilo/actions-poetry@v2
-        with:
-          poetry-version: ${{ matrix.poetry-version }}
 
       - name: "Create requirements.txt"
         run: poetry export --without-hashes --format=requirements.txt --only=docs > requirements.txt
