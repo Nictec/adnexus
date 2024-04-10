@@ -8,9 +8,9 @@
 - **Developer friendly:** Declarative Container definition to take the "Magic" out of DI
 - **Good compatibility:** Can be used with almost every framework and supports async
 
-## Installation (via git for now)
+## Installation
 ```bash
-pip install git+https://github.com/Nictec/XDI
+pip install adnexus
 ```
 
 ## Basic Example

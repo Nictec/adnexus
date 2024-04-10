@@ -5,9 +5,10 @@ build-backend = "poetry.core.masonry.api"
 [tool.poetry]
 name = "adnexus"
 version = "0.1.1"
-description = ""
+description = "Modern and fully typed declarative Di and IoC Framework"
 authors = [ "nl <nl@x-net.at>",]
 readme = "README.md"
+repository = "https://github.com/Nictec/adnexus/"
 
 [tool.poetry.dependencies]
 python = "^3.11"
