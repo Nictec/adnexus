@@ -1,4 +1,4 @@
-[![tests](https://github.com/Nictec/XDI/actions/workflows/main.yml/badge.svg)](https://github.com/Nictec/XDI/actions/workflows/main.yml) [![Docs](https://github.com/Nictec/adnexus/actions/workflows/docs.yml/badge.svg)](https://github.com/Nictec/adnexus/actions/workflows/docs.yml)
+[![tests](https://github.com/Nictec/XDI/actions/workflows/main.yml/badge.svg)](https://github.com/Nictec/XDI/actions/workflows/main.yml) [![docs](https://github.com/Nictec/adnexus/actions/workflows/docs.yml/badge.svg)](https://github.com/Nictec/adnexus/actions/workflows/docs.yml) [![build](https://github.com/Nictec/adnexus/actions/workflows/build.yml/badge.svg)](https://github.com/Nictec/adnexus/actions/workflows/build.yml)
 # XDI Framework
 **XDI is a modern and declarative DI and IoC framework using pydantic for config and data.**
 
