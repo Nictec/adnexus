@@ -2,7 +2,7 @@ import functools
 import importlib
 import inspect
 from abc import ABC
-from typing import List, Dict, get_origin, get_args, Type, Any
+from typing import List, Dict, get_origin, get_args, Any
 
 from pydantic import BaseModel
 

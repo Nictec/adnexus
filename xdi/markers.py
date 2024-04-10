@@ -1,9 +1,9 @@
 from typing import TypeVar, Generic
 
-I = TypeVar("I")
+INJ = TypeVar("INJ")
 
 
-class Provide(Generic[I]):
+class Provide(Generic[INJ]):
     """
     Marker for marking an attribute to be injected by XDI
     """

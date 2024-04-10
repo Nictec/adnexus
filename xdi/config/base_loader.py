@@ -2,8 +2,6 @@ from abc import ABC, abstractmethod
 from pathlib import Path
 from typing import Any, Dict
 
-from pydantic import BaseModel
-
 
 class BaseConfigLoader(ABC):
     def __init__(self, *args, **kwargs): # pragma: no cover

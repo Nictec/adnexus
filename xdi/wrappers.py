@@ -25,8 +25,6 @@ class InjectedClass:
         return self.orig_class
 
 
-
-
 class InjectedCallable:
     dependencies: Dict[str, Any]
     _orig_callable: Callable
