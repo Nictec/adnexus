@@ -1,3 +1,5 @@
+[![tests](https://github.com/Nictec/XDI/actions/workflows/main.yml/badge.svg)](https://github.com/Nictec/XDI/actions/workflows/main.yml) [![Docs](https://github.com/Nictec/adnexus/actions/workflows/docs.yml/badge.svg)](https://github.com/Nictec/adnexus/actions/workflows/docs.yml)
+# XDI Framework
 **XDI is a modern and declarative DI and IoC framework using pydantic for config and data.**
 
 ## Key features
@@ -5,6 +7,11 @@
 - **Fast:** Very high performance thanks to pydantic and preemptive wiring
 - **Developer friendly:** Declarative Container definition to take the "Magic" out of DI
 - **Good compatibility:** Can be used with almost every framework and supports async
+
+## Installation
+```bash
+pip install adnexus
+```
 
 ## Basic Example
 
@@ -14,7 +21,8 @@ from datetime import datetime
 
 from pydantic import BaseModel
 from adnexus.containers import DeclarativeContainer
-from adnexus.config_old.builtin import TOMLConfigLoader
+from adnexus.config.builtin import TOMLLoader
+from adnexus.config import load_config
 from adnexus.providers import FactoryProvider
 from adnexus.markers import Provide
 from adnexus.decorators import inject
@@ -44,18 +52,15 @@ def test(greeter: Provide[TestInjectable]):
 
 
 class MyConfig(BaseModel):
-    listen_addr: str
-    listen_port: int
+    name: str
 
 
 class MyContainer(DeclarativeContainer):
     # the loaded config can be accessed by calling MyContainer.config.<name>
-    config_loaders = [
-        TOMLConfigLoader(Path("settings.toml"))]  # <-- This file must (obviously) exist for the example to work
-    config_model = MyConfig
+    config = load_config(TOMLLoader(Path("/path/to/settings.toml")))
 
     injectables = [
-        FactoryProvider(TestInjectable, "Bob"),
+        FactoryProvider(TestInjectable, config.name),
         FactoryProvider(UpstreamInjectable)
     ]
 
