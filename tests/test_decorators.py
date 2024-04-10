@@ -1,7 +1,7 @@
 import pytest
 
-from xdi.decorators import inject
-from xdi.wrappers import InjectedCallable, InjectedAsyncCallable, InjectedClass
+from adnexus.decorators import inject
+from adnexus.wrappers import InjectedCallable, InjectedAsyncCallable, InjectedClass
 
 
 @inject

@@ -1,5 +1,5 @@
-from xdi.decorators import inject
-from xdi.markers import Provide
+from adnexus.decorators import inject
+from adnexus.markers import Provide
 
 
 class NonInjecteable:

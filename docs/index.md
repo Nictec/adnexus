@@ -13,11 +13,11 @@ from pathlib import Path
 from datetime import datetime
 
 from pydantic import BaseModel
-from xdi.containers import DeclarativeContainer
-from xdi.config_old.builtin import TOMLConfigLoader
-from xdi.providers import FactoryProvider
-from xdi.markers import Provide
-from xdi.decorators import inject
+from adnexus.containers import DeclarativeContainer
+from adnexus.config_old.builtin import TOMLConfigLoader
+from adnexus.providers import FactoryProvider
+from adnexus.markers import Provide
+from adnexus.decorators import inject
 
 
 class UpstreamInjectable:

@@ -1,5 +1,5 @@
 import pytest
-from xdi.providers import FactoryProvider, SingletonProvider
+from adnexus.providers import FactoryProvider, SingletonProvider
 
 
 class ExampleClass:

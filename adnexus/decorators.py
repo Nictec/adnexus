@@ -1,7 +1,7 @@
 import inspect
 from typing import Callable, Type, Any
 
-from xdi.wrappers import InjectedCallable, InjectedAsyncCallable, InjectedClass
+from adnexus.wrappers import InjectedCallable, InjectedAsyncCallable, InjectedClass
 
 
 def inject(wrapped: Callable | Type[Any]):

@@ -2,7 +2,7 @@ import pytest
 from starlette.requests import Request
 from starlette.responses import Response
 
-from xdi.integrations.starlette import InjectedRoute
+from adnexus.integrations.starlette import InjectedRoute
 
 async def homepage(request: Request) -> Response:
     pass

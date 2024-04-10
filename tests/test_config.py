@@ -3,8 +3,8 @@ from pathlib import Path
 import pytest
 from pydantic import BaseModel
 
-from xdi.config import merge, load_config
-from xdi.config.builtin import JSONLoader, TOMLLoader, YAMLLoader
+from adnexus.config import merge, load_config
+from adnexus.config.builtin import JSONLoader, TOMLLoader, YAMLLoader
 
 
 class ExampleConfig(BaseModel):

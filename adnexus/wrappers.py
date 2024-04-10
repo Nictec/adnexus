@@ -1,6 +1,6 @@
 from typing import Any, Dict, Callable, Type
 
-from xdi.exceptions import InjectionError
+from adnexus.exceptions import InjectionError
 
 
 class InjectedClass:

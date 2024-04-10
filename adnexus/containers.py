@@ -6,10 +6,10 @@ from typing import List, Dict, get_origin, get_args, Any
 
 from pydantic import BaseModel
 
-from xdi.wrappers import InjectedCallable, InjectedClass
-from xdi.exceptions import ImproperlyConfigured, WiringError
-from xdi.providers import BaseProvider
-from xdi.markers import Provide
+from adnexus.wrappers import InjectedCallable, InjectedClass
+from adnexus.exceptions import ImproperlyConfigured, WiringError
+from adnexus.providers import BaseProvider
+from adnexus.markers import Provide
 
 
 class BaseContainer(ABC):

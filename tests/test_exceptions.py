@@ -1,6 +1,6 @@
 import pytest
 
-from xdi.exceptions import *
+from adnexus.exceptions import *
 
 
 @pytest.mark.parametrize("exception", [XDIError, InjectionError, WiringError])

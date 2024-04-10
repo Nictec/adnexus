@@ -2,8 +2,8 @@ import asyncio
 
 import pytest
 from unittest.mock import Mock, AsyncMock
-from xdi.wrappers import InjectedCallable, InjectedAsyncCallable, InjectedClass
-from xdi.exceptions import InjectionError
+from adnexus.wrappers import InjectedCallable, InjectedAsyncCallable, InjectedClass
+from adnexus.exceptions import InjectionError
 
 
 class TestClass:

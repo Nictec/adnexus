@@ -5,7 +5,7 @@ import typing
 from starlette.middleware import Middleware
 from starlette.routing import Route, get_name, request_response, compile_path
 
-from xdi.wrappers import InjectedCallable
+from adnexus.wrappers import InjectedCallable
 
 
 # this is necessary because the standard starlette route would handle our injected objects as an Endpoint (which does not work)

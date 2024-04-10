@@ -1,5 +1,5 @@
 from typing import get_args
-from xdi.markers import *
+from adnexus.markers import *
 
 def test_provide_marker():
     marker = Provide[str]()

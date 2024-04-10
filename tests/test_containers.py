@@ -2,9 +2,9 @@ import pytest
 
 from container_fixtures import wired_container, unwired_container, test, container_without_config, container_without_injectables, TestClass
 from invalid_injectables import non_inj_test
-from xdi.containers import DeclarativeContainer
-from xdi.exceptions import ImproperlyConfigured, WiringError, InjectionError
-from xdi.wrappers import InjectedCallable
+from adnexus.containers import DeclarativeContainer
+from adnexus.exceptions import ImproperlyConfigured, WiringError, InjectionError
+from adnexus.wrappers import InjectedCallable
 
 def test_wiring(wired_container):
     assert isinstance(wired_container, DeclarativeContainer)
