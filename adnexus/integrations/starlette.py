@@ -10,6 +10,10 @@ from adnexus.wrappers import InjectedCallable
 
 # this is necessary because the standard starlette route would handle our injected objects as an Endpoint (which does not work)
 class InjectedRoute(Route):
+    """
+    Overwrites the default Route of Starlette to be compatible with starlette.
+    Warning: Usage of the normal Route is not supported because of internal datastructures (InjectedCallable)
+    """
     def __init__(
         self,
         path: str,

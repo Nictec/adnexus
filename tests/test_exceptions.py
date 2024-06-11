@@ -3,7 +3,7 @@ import pytest
 from adnexus.exceptions import *
 
 
-@pytest.mark.parametrize("exception", [XDIError, InjectionError, WiringError])
+@pytest.mark.parametrize("exception", [AdnexusError, InjectionError, WiringError])
 def test_generic_error(exception):
     with pytest.raises(exception) as exec_info:
         raise exception("test")

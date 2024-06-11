@@ -8,6 +8,9 @@ from .base_loader import FileConfigLoader
 
 
 class JSONLoader(FileConfigLoader):
+    """
+    Builtin config loader for JSON config files.
+    """
     def parse(self, raw_data: str) -> Dict[str, Any]:
         return json.loads(raw_data)
 
@@ -16,6 +19,9 @@ class JSONLoader(FileConfigLoader):
 
 
 class TOMLLoader(FileConfigLoader):
+    """
+    Builtin config loader for TOML config files.
+    """
     def parse(self, raw_data: str) -> dict:
         return tomllib.loads(raw_data)
 
@@ -24,6 +30,9 @@ class TOMLLoader(FileConfigLoader):
 
 
 class YAMLLoader(FileConfigLoader):
+    """
+    Builtin config loader for YAML config files.
+    """
     def parse(self, raw_data: str) -> dict:
         return yaml.safe_load(raw_data)
 

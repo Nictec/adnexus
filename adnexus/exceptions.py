@@ -1,27 +1,35 @@
-class XDIError(BaseException):
+class AdnexusError(BaseException):
     """
     XDI base exception
     """
     pass
 
 
-class ImproperlyConfigured(XDIError):
+class ImproperlyConfigured(AdnexusError):
     """
     Exception for when the framework config has errors
     """
+
     def __init__(self, msg) -> None:
         super().__init__("Framework config error: " + msg)
 
 
-class InjectionError(XDIError):
+class InjectionError(AdnexusError):
     """
     Exception for errors occurring in the injection process
     """
     pass
 
 
-class WiringError(XDIError):
+class WiringError(AdnexusError):
     """
     Exception for errors occurring in the wiring process
+    """
+    pass
+
+
+class CircularDependencyError(AdnexusError):
+    """
+    Exception for detected circular dependencies
     """
     pass

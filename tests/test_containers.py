@@ -1,7 +1,8 @@
 import pytest
 
-from container_fixtures import wired_container, unwired_container, test, container_without_config, container_without_injectables, TestClass
-from invalid_injectables import non_inj_test
+from adnexus.warnings import ContainerInitializationWarning
+from container_fixtures import wired_container, unwired_container, test, circular_container, container_without_injectables, TestClass
+from invalid_injectables import non_inj_test, circular
 from adnexus.containers import DeclarativeContainer
 from adnexus.exceptions import ImproperlyConfigured, WiringError, InjectionError
 from adnexus.wrappers import InjectedCallable
@@ -11,7 +12,9 @@ def test_wiring(wired_container):
     assert isinstance(test, InjectedCallable)
 
 def test_missing_injectables(container_without_injectables):
-    with pytest.raises(ImproperlyConfigured):
+    # with pytest.raises(ImproperlyConfigured):
+    #     container_without_injectables()
+    with pytest.warns(ContainerInitializationWarning):
         container_without_injectables()
 
 def test_injected_function(wired_container):

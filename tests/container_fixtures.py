@@ -6,6 +6,7 @@ from adnexus.containers import DeclarativeContainer
 from adnexus.providers import FactoryProvider
 from adnexus.markers import Provide
 from adnexus.decorators import inject
+from tests.invalid_injectables import Circular1, Circular2
 
 
 class UpstreamInjectable:
@@ -62,6 +63,12 @@ class NoConfigContainer(DeclarativeContainer):
 class MissingInjectablesContainer(DeclarativeContainer):
     pass
 
+class CircularContainer(DeclarativeContainer):
+    injectables = [
+        FactoryProvider(Circular1),
+        FactoryProvider(Circular2)
+    ]
+
 
 @pytest.fixture(scope="module")
 def wired_container():
@@ -82,3 +89,9 @@ def container_without_config():
 @pytest.fixture(scope="module")
 def container_without_injectables():
     return MissingInjectablesContainer
+
+@pytest.fixture(scope="module")
+def circular_container():
+    cont = CircularContainer()
+    cont.wire(["invalid_injectables"])
+    return cont

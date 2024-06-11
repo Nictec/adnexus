@@ -4,6 +4,10 @@ from adnexus.exceptions import InjectionError
 
 
 class InjectedClass:
+    """
+    Wrapper for classes injected by adnexus
+    """
+
     dependencies: Dict[str, Any]
     orig_class: Type[Any]
 
@@ -26,14 +30,13 @@ class InjectedClass:
 
 
 class InjectedCallable:
+    """
+    Wrapper for callables injected by adnexus
+    """
     dependencies: Dict[str, Any]
     _orig_callable: Callable
 
     def __init__(self, orig_callable: Callable):
-        """
-        Class for handling injected callables. Returned by the inject decorator
-        :param orig_callable: The original callable to be wrapped by this object
-        """
 
         self.dependencies = {}
         self._orig_callable = orig_callable

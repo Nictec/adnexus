@@ -1,18 +1,23 @@
 import functools
 import importlib
 import inspect
+import warnings
 from abc import ABC
 from typing import List, Dict, get_origin, get_args, Any
 
 from pydantic import BaseModel
 
+from adnexus.warnings import ContainerInitializationWarning
 from adnexus.wrappers import InjectedCallable, InjectedClass
-from adnexus.exceptions import ImproperlyConfigured, WiringError
+from adnexus.exceptions import ImproperlyConfigured, WiringError, CircularDependencyError
 from adnexus.providers import BaseProvider
 from adnexus.markers import Provide
 
 
 class BaseContainer(ABC):
+    """
+    Base class of all Adnexus containers.
+    """
     config: BaseModel
     injectables: List[BaseProvider]
 
@@ -23,11 +28,8 @@ class BaseContainer(ABC):
         return super().__new__(cls)
 
     def __init__(self):
-        """
-        Class all container types inherit from
-        """
         if len(self.get_injectables()) < 1:
-            raise ImproperlyConfigured("Container must have at least one injectable")
+            warnings.warn("Container was initialized without declaring any injectables.", ContainerInitializationWarning)
 
     def wire(self, modules: List[str]):
         """
@@ -36,7 +38,11 @@ class BaseContainer(ABC):
         """
         pass
 
-    def get_injectables(self):
+    def get_injectables(self) -> List[BaseProvider]:
+        """
+        Getter for all injectables in the container
+        :return:
+        """
         if hasattr(self, "injectables"):
             return self.injectables
         else:
@@ -44,8 +50,17 @@ class BaseContainer(ABC):
 
 
 class DeclarativeContainer(BaseContainer):
+    """
+    Declarative adnexus container
+    provided injectables must be defined, no auto discover
+    """
     @staticmethod
-    def _get_root_callables(mod_paths: List[str]):
+    def _get_root_callables(mod_paths: List[str]) -> list:
+        """
+        Loads the root function/class from specified modules
+        :param mod_paths:
+        :return:
+        """
         root_callables = []
         for mod_path in mod_paths:
             module = importlib.import_module(mod_path)
@@ -54,7 +69,13 @@ class DeclarativeContainer(BaseContainer):
 
         return root_callables
 
-    def _resolve(self, injectable_obj: Any):
+    def _resolve(self, injectable_obj: Any) -> dict[str, BaseProvider]:
+        """
+        Resolves the dependencies of a function/class recursively
+        :param injectable_obj: python object to inject dependencies in
+        :return: InjectedCallable
+        """
+
         if isinstance(injectable_obj, BaseProvider):
             # resolving dependencies of a dependency
             params = inspect.signature(injectable_obj.provided_class.__init__).parameters.items()
@@ -65,6 +86,7 @@ class DeclarativeContainer(BaseContainer):
             # resolving dependencies of InjectedClass
             params = inspect.signature(injectable_obj.wrapped.__init__).parameters.items()
 
+        current_resolved_dependencies = set()
         dependencies = {}
         for param_name, param_type in params:
             if get_origin(param_type.annotation) == Provide:
@@ -77,14 +99,20 @@ class DeclarativeContainer(BaseContainer):
                 partial_init = functools.partialmethod(self._provider_mapping[dependency_class_name].provided_class.__init__, **current_dep_params)
                 self._provider_mapping[dependency_class_name].inject_provided_init(partial_init)
 
-                dependencies[param_name] = self._provider_mapping[dependency_class_name]
+                current_dependency = self._provider_mapping[dependency_class_name]
+                if current_dependency in current_resolved_dependencies:
+                    raise CircularDependencyError(f"Circular dependency detected in class '{current_dependency.provided_class.__name__}'")
+                else:
+                    dependencies[param_name] = current_dependency
+                    current_resolved_dependencies.add(current_dependency)
 
         return dependencies
 
     def wire(self, modules: List[str]):
         """
-        Wire all injectables of this container
-        :param modules:
+        Wire all injectables of this container.
+        This must be called before any injected callable or class is used
+        :param modules: Modules with functions or classes decorated by "@inject"
         :return: Modules of injectable callables
         """
 
